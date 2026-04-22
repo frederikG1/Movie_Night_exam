@@ -22,6 +22,10 @@ app.use(
   }),
 );
 
+// -------- AUTH --------
+import authRouter from "./routers/authRouter.js";
+app.use("/api", authRouter);
+
 app.listen(8080, () => {
   console.log("Server is running on http://localhost:8080");
 });
