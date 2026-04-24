@@ -1,6 +1,6 @@
 import { DatabaseSync } from 'node:sqlite';
 
-const db = new DatabaseSync('movies.db')
+const db = new DatabaseSync('database/movies.db')
 
 export default db;
 

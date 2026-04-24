@@ -2,7 +2,6 @@ import { Router } from "express";
 import db from "../database/connection.js";
 import bcrypt from "bcrypt";
 
-
 const router = Router();
 const saltRounds = 10;
 
@@ -60,7 +59,7 @@ router.post("/login", async (req, res) => {
     return res.status(401).send({ errorMessage: "Wrong password" });
   }
 
-  req.session.user = { username: foundUser.username, email: foundUser.email };
+  req.session.user = { id: foundUser.id, username: foundUser.username, email: foundUser.email };
   res.status(200).send({ successMessage: "Login succesful" });
 });
 
@@ -81,3 +80,5 @@ router.get("/me", async (req, res) => {
 
   res.status(200).send({ user: req.session.user });
 });
+
+export default router;

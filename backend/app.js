@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
+import "dotenv/config";
 
 const app = express();
 
@@ -25,6 +26,9 @@ app.use(
 // -------- AUTH --------
 import authRouter from "./routers/authRouter.js";
 app.use("/api", authRouter);
+
+import movieRouter from "./routers/movieRouter.js";
+app.use("/api", movieRouter);
 
 app.listen(8080, () => {
   console.log("Server is running on http://localhost:8080");
