@@ -30,6 +30,9 @@ app.use("/api", authRouter);
 import movieRouter from "./routers/movieRouter.js";
 app.use("/api", movieRouter);
 
+import watchlistRouter from "./routers/watchlistRouter.js";
+app.use("/api", watchlistRouter);
+
 app.listen(8080, () => {
   console.log("Server is running on http://localhost:8080");
 });
