@@ -11,6 +11,10 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "svelte": "^5.55.4",
-    "vite": "^8.0.9"
+    "vite": "^8.0.10"
+  },
+  "dependencies": {
+    "svelte-5-french-toast": "^2.0.6",
+    "svelte-routing": "^2.13.0"
   }
 }

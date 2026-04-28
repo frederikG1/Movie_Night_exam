@@ -4,6 +4,12 @@ import { isLoggedIn } from "./middlewareRouter.js";
 
 const router = Router();
 
+router.get("/movies", (req, res) => {
+  const movie = db.prepare("SELECT * FROM movies").all();
+
+  res.status(200).send(movie);
+});
+
 router.get("/movies/search", async (req, res) => {
   const { q } = req.query;
 
@@ -22,7 +28,7 @@ router.get("/movies/search", async (req, res) => {
     );
 
     if (!response.ok) {
-      return res.status(500).send({ errorMessage: "TMDB api failed" });
+      return res.status(400).send({ errorMessage: "TMDB api failed" });
     }
 
     const data = await response.json();
@@ -43,7 +49,7 @@ router.get("/movies/search", async (req, res) => {
     res.status(200).send(data.results);
   } catch (err) {
     console.log(err);
-    res.status(500).send({ errorMessage: "Something went wrong" });
+    res.status(400).send({ errorMessage: "Something went wrong" });
   }
 });
 

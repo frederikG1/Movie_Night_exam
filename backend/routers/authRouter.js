@@ -46,7 +46,7 @@ router.post("/login", async (req, res) => {
 
   if (!foundUser) {
     return res
-      .status(404)
+      .status(400)
       .send({ errorMessage: "No user found with this email" });
   }
 
@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
   );
 
   if (!isPasswordCorrect) {
-    return res.status(401).send({ errorMessage: "Wrong password" });
+    return res.status(400).send({ errorMessage: "Wrong password" });
   }
 
   req.session.user = { id: foundUser.id, username: foundUser.username, email: foundUser.email };
@@ -66,7 +66,7 @@ router.post("/login", async (req, res) => {
 router.post("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).send({ errorMessage: "Logout failed" });
+      return res.status(401).send({ errorMessage: "Logout failed" });
     }
     res.clearCookie("connect.sid");
     res.status(200).send({ successMessage: "Logout successful" });
