@@ -21,9 +21,7 @@ router.get("/watchlist", isLoggedIn, (req, res) => {
 router.post("/watchlist/:id", isLoggedIn, (req, res) => {
   const { id } = req.params;
 
-  const movie = db
-    .prepare(`SELECT * FROM movies where tmdb_id = ?`)
-    .get(id);
+  const movie = db.prepare(`SELECT * FROM movies where tmdb_id = ?`).get(id);
 
   if (!movie) {
     res.status(401).send({ errorMessage: "Movie doesn't exist" });
@@ -48,6 +46,26 @@ router.post("/watchlist/:id", isLoggedIn, (req, res) => {
   res
     .status(200)
     .send({ successMessage: "Movie has been added to watchlist!" });
+});
+
+router.patch("/watchlist/:id", isLoggedIn, (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const movie = db.prepare(`SELECT * FROM movies WHERE tmdb_id = ?`).get(id);
+
+  if (!movie) {
+    return res.status(401).send({ errorMessage: "Movie doesn't exist" });
+  }
+
+  const patchMovie = db
+    .prepare(`UPDATE watchlist SET status = ? WHERE tmdb_id = ?`)
+    .run(req.session.id);
+
+  if (!patchMovie) {
+    return res.status(400).send({ errorMessage: "Please update status" });
+  }
+
+  res.status(200).send({ successMessage: "Movie status has been updated" });
 });
 
 export default router;
