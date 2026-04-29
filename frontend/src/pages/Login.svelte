@@ -19,13 +19,13 @@
       console.log(data);
 
       if (response.ok) {
-        toast.success("You are logged in ");
+        toast.success(data.successMessage);
         navigate("/");
       } else {
-        toast.error("Something went wrong");
+        toast.error(data.errorMessage);
       }
     } catch (error) {
-      toast.error("Error");
+      toast.error(error.errorMessage);
     }
   }
 </script>
