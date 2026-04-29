@@ -26,6 +26,7 @@ db.exec(`
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         tmdb_id INTEGER UNIQUE,
         title TEXT NOT NULL,
+        poster_path TEXT,
         synopsis TEXT,
         release_year INTEGER,
         tmdb_rating REAL

@@ -1,6 +1,6 @@
 <script>
   import { navigate } from "svelte-routing";
-  import { isLoggedIn } from "../stores/authStore";
+  import { authStore } from "../stores/authStore.js";
   import { toast, Toaster } from "svelte-5-french-toast";
 
   let email = $state("");
@@ -16,16 +16,19 @@
       });
       const data = await response.json();
 
-      console.log(data);
-
       if (response.ok) {
-        toast.success(data.successMessage);
+        authStore.set(data.user);
+        toast.success(data.successMessage, {
+          position: "top-right",
+        });
         navigate("/");
       } else {
-        toast.error(data.errorMessage);
+        toast.error(data.errorMessage, {
+          position: "top-right",
+        });
       }
     } catch (error) {
-      toast.error(error.errorMessage);
+      toast.error(error.message);
     }
   }
 </script>

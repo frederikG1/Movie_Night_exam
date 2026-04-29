@@ -36,10 +36,11 @@ router.get("/movies/search", async (req, res) => {
     for (const movie of data.results) {
       db.prepare(
         `
-        INSERT OR IGNORE INTO movies (tmdb_id, title, synopsis, release_year, tmdb_rating) VALUES (?, ?, ?, ?, ?)`,
+        INSERT OR IGNORE INTO movies (tmdb_id, title, poster_path, synopsis, release_year, tmdb_rating) VALUES (?, ?, ?, ?, ?, ?)`,
       ).run(
         movie.id,
         movie.title,
+        movie.poster_path,
         movie.overview,
         movie.release_date,
         movie.vote_average,

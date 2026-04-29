@@ -59,8 +59,14 @@ router.post("/login", async (req, res) => {
     return res.status(400).send({ errorMessage: "Wrong password" });
   }
 
-  req.session.user = { id: foundUser.id, username: foundUser.username, email: foundUser.email };
-  res.status(200).send({ successMessage: "Login succesful" });
+  req.session.user = {
+    id: foundUser.id,
+    username: foundUser.username,
+    email: foundUser.email,
+  };
+  res
+    .status(200)
+    .send({ successMessage: "Login succesful", user: req.session.user });
 });
 
 router.post("/logout", (req, res) => {

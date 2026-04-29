@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "svelte-5-french-toast": "^2.0.6",
-    "svelte-routing": "^2.13.0"
+    "svelte-routing": "^2.13.0",
+    "svelte-sonner": "^1.1.1"
   }
 }
