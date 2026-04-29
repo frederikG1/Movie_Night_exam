@@ -22,12 +22,12 @@ router.post("/watchlist/:id", isLoggedIn, (req, res) => {
   const movie = db.prepare(`SELECT * FROM movies where tmdb_id = ?`).get(id);
 
   if (!movie) {
-    res.status(400).send({ errorMessage: "Movie doesn't exist" });
+    return res.status(400).send({ errorMessage: "Movie doesn't exist" });
   }
 
   const alreadyAdded = db
     .prepare(`SELECT * FROM watchlist WHERE user_id = ? AND movie_id = ?`)
-    .get(req.session.user.id);
+    .get(req.session.user.id, movie.id);
 
   if (alreadyAdded) {
     return res

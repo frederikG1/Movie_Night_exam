@@ -1,39 +1,64 @@
 <script>
-  let movie = $state("");
-  let results = $state([]);
+  import { onMount } from "svelte";
+  import { toast, Toaster } from "svelte-5-french-toast";
 
-  async function findMovie() {
+  let movie = $state(null);
+  let { id } = $props();
+
+  onMount(async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/movies/${id}`, {
+        credentials: "include",
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        movie = data;
+      }
+    } catch {}
+  });
+
+  async function addToWatchList() {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/movies/search?q=${movie}`,
+        `http://localhost:8080/api/watchlist/${id}`,
         {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
+          body: JSON.stringify({ movie }),
         },
       );
       const data = await response.json();
 
       if (response.ok) {
-        results = data;
+        toast.success(data.successMessage, {
+          position: "top-right",
+        });
+      } else {
+        toast.error(data.errorMessage, {
+          position: "top-right",
+        });
       }
     } catch {}
   }
 </script>
 
-<div class="container">
-  <h2>Movies</h2>
-  <input bind:value={movie} placeholder="Moviename" />
-  <button onclick={findMovie}>Search</button>
+<Toaster />
 
-  {#each results as movie}
-    <div>
-      <p>Title: {movie.title}</p>
-      <img
-        src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-        alt={movie.title}
-      />
-      <p>Synopsis: {movie.overview}</p>
-      <p>Release date: {movie.release_date}</p>
-      <p>Rating: {movie.vote_average}</p>
-    </div>
-  {/each}
-</div>
+{#if movie}
+  <div>
+    <img
+      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+      alt={movie.title}
+    />
+    <button onclick={() => history.back()}>Go back!</button>
+    <button onclick={addToWatchList}>Add to watchlist</button>
+    <h2>{movie.title}</h2>
+    <p>Synopsis: {movie.synopsis}</p>
+    <p>Release date: {movie.release_year}</p>
+    <p>Rating: {movie.tmdb_rating}</p>
+  </div>
+{:else}
+  <p>..</p>
+{/if}
