@@ -5,15 +5,16 @@ import { isLoggedIn } from "./middlewareRouter.js";
 const router = Router();
 
 router.get("/watchlist", isLoggedIn, (req, res) => {
-  const watchedMovie = db
-    .prepare(`SELECT * FROM watchlist WHERE user_id = ?`)
+  const watchList = db
+    .prepare(
+      `SELECT watchlist.*, movies.title, movies.poster_path, movies.synopsis, movies.release_year, movies.tmdb_rating 
+    FROM watchlist
+    JOIN movies ON movies.id = watchlist.movie_id
+    WHERE watchlist.user_id = ?`,
+    )
     .all(req.session.user.id);
 
-  if (!watchedMovie) {
-    res.status(400).send({ errorMessage: "No movies in watchlist" });
-  }
-
-  res.status(200).send(watchedMovie);
+  res.status(200).send(watchList);
 });
 
 router.post("/watchlist/:id", isLoggedIn, (req, res) => {
@@ -72,7 +73,7 @@ router.delete("/watchlist/:id", isLoggedIn, (req, res) => {
     res.status(400).send({ errorMessage: "Movie with this ID not found" });
   }
 
-  res.status(200).send({ successMessage: "Movie has been deleted" });
+  res.status(201).send({ successMessage: "Movie has been deleted" });
 });
 
 export default router;

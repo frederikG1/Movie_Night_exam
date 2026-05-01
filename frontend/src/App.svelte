@@ -82,8 +82,7 @@
       <Movie id={params.id} /></Route
     >
     <!-- Think of let:params as the Route component saying "here's what I found in the URL, you can use it" -->
-    <Route path="/watchlist/:id" let:params>
-      <Watchlist id={params.id} /></Route>
+    <Route path="/watchlist"><Watchlist /></Route>
     <Route path="/watch-party"><WatchParty /></Route>
   </div>
 </Router>
