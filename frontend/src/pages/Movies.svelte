@@ -8,12 +8,16 @@
   let filteredMovies = $derived(
     movies.slice().sort((a, b) => {
       if (sortBy === "rating") return b.tmdb_rating - a.tmdb_rating;
-      if (sortBy === "year") return b.release_year - a.release_year;
+      if (sortBy === "year")
+        return (
+          new Date(b.release_year).getTime() -
+          new Date(a.release_year).getTime()
+        );
       if (sortBy === "title") return a.title.localeCompare(b.title);
     }),
   );
 
-  // FILTER MED YEAR VIRKER IKKE ORDENTLIGT
+
 
   onMount(async () => {
     try {
@@ -31,14 +35,22 @@
 </script>
 
 <select bind:value={sortBy}>
-<input placeholder="Sort by">
-  <option value="rating">Highest rating</option>
+  <input placeholder="Sort by" />
+  <option value="rating">Rating (H-L)</option>
   <option value="year">Newest</option>
   <option value="title">Title (A-Z)</option>
 </select>
 
 <div class="container">
-  <h1>All Movies</h1>
+  {#if sortBy === "rating"}
+    <h1>Movies sorted by rating</h1>
+    <p></p>
+  {:else if sortBy === "year"}
+    <h1>Movies sorted by year</h1>
+  {:else if sortBy === "title"}
+    <h1>Movies sorted by title</h1>
+  {/if}
+
   <div class="movie-rows">
     {#each filteredMovies as movie}
       <Link to={`/movies/${movie.tmdb_id}`}>
@@ -56,6 +68,6 @@
   .movie-rows {
     display: grid;
     gap: 2rem;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 </style>

@@ -17,12 +17,6 @@
       ),
   );
 
-  // let filteredMovies = $derived(
-  //   movies.slice().sort((a, b) => {
-
-  //   }),
-  // );
-
   // FILTER MED YEAR VIRKER IKKE ORDENTLIGT
 
   onMount(async () => {
@@ -64,15 +58,17 @@
 
   {#if showMatches}
     <h1>Showing matches for "{showMatches}"</h1>
-    {#each results as movie}
-      <Link to={`/movies/${movie.id}`}>
-        <img
-          src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-          alt={movie.title}
-        />
-        <p>{movie.title}</p>
-      </Link>
-    {/each}
+    <div class="movie-rows">
+      {#each results as movie}
+        <Link to={`/movies/${movie.id}`}>
+          <img
+            src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+            alt={movie.title}
+          />
+          <p>{movie.title}</p>
+        </Link>
+      {/each}
+    </div>
   {:else}
     <div class="movie-rows">
       <h1>Newest releases</h1>
@@ -89,6 +85,8 @@
   {/if}
 </div>
 
+<!-- </div> -->
+
 <style>
   h1 {
     text-decoration: underline;
@@ -98,6 +96,6 @@
   .movie-rows {
     display: grid;
     gap: 2rem;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 </style>
