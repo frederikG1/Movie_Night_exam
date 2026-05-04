@@ -3,6 +3,7 @@
   import { toast, Toaster } from "svelte-5-french-toast";
 
   let movie = $state(null);
+
   let { id } = $props();
 
   onMount(async () => {
@@ -45,6 +46,8 @@
 </script>
 
 <Toaster />
+
+
 
 {#if movie}
   <div>

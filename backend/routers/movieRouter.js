@@ -5,9 +5,9 @@ import { isLoggedIn } from "./middlewareRouter.js";
 const router = Router();
 
 router.get("/movies", (req, res) => {
-  const movie = db.prepare("SELECT * FROM movies").all();
+  const movies = db.prepare("SELECT * FROM movies").all();
 
-  res.status(200).send(movie);
+  res.status(200).send(movies);
 });
 
 router.get("/movies/search", async (req, res) => {

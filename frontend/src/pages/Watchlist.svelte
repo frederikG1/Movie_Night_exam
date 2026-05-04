@@ -103,5 +103,6 @@
 
   .columns div {
     flex: 1;
+
   }
 </style>

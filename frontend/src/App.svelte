@@ -3,6 +3,7 @@
   import Login from "./pages/Login.svelte";
   import Home from "./pages/Home.svelte";
   import Movie from "./pages/Movie.svelte";
+  import Movies from "./pages/Movies.svelte";
   import Signup from "./pages/Signup.svelte";
   import WatchParty from "./pages/WatchParty.svelte";
   import Watchlist from "./pages/Watchlist.svelte";
@@ -19,6 +20,8 @@
 
       if (response.ok) {
         authStore.set(data.user);
+      } else {
+        navigate("/login");
       }
     } catch {
       authStore.set(null);
@@ -59,11 +62,9 @@
       <Link to="/watchlist">Watchlist</Link>
       <Link to="/movies">Movies</Link>
 
-      <h1>Welcome, {$authStore?.username}! You are logged in.</h1>
+      <span>Welcome, {$authStore?.username}! You are logged in.</span>
 
-      <div class="nav-btn-wrapper">
-        <button class="btn" onclick={handleLogout}>Logout</button>
-      </div>
+      <button class="btn" onclick={handleLogout}>Logout</button>
     {:else}
       <Link to="/login">Login</Link>
       <Link to="/signup">Signup</Link>
@@ -78,6 +79,7 @@
     <Route path="/"><Home /></Route>
     <Route path="/login"><Login /></Route>
     <Route path="/signup"><Signup /></Route>
+    <Route path="/movies"><Movies /></Route>
     <Route path="/movies/:id" let:params>
       <Movie id={params.id} /></Route
     >
@@ -86,18 +88,3 @@
     <Route path="/watch-party"><WatchParty /></Route>
   </div>
 </Router>
-
-<style>
-  .navbar {
-    display: inline;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #333;
-    
-  }
-
-  .btn {
-    background-color: darkred;
-  }
-</style>
