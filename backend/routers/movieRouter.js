@@ -68,7 +68,32 @@ router.get("/movies/:id", (req, res) => {
   res.status(200).send(movie);
 });
 
-router.post("/movies/:id/rating", isLoggedIn, (req, res) => {
+router.get("/movies/:id/ratings", (req, res) => {
+  const { id } = req.params;
+
+  const movie = db.prepare("SELECT * FROM movies WHERE tmdb_id = ?").get(id);
+
+  if (!movie) {
+    return res.status(400).send({ errorMessage: "Movie not found" });
+  }
+
+  //JOIN users grabs username so it displays who made the rating
+  const ratings = db
+    .prepare(
+      `
+    SELECT ratings.*, users.username
+    FROM ratings
+    JOIN users ON users.id = ratings.user_id
+    WHERE ratings.movie_id = ?
+    ORDER BY ratings.created_at DESC
+    `,
+    )
+    .all(movie.id);
+
+    res.status(200).send(ratings);
+});
+
+router.post("/movies/:id/ratings", isLoggedIn, (req, res) => {
   const { score, note } = req.body;
   const { id } = req.params;
 

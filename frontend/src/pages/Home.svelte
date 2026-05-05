@@ -85,8 +85,6 @@
   {/if}
 </div>
 
-<!-- </div> -->
-
 <style>
   h1 {
     text-decoration: underline;

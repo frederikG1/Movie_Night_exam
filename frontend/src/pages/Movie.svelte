@@ -3,6 +3,7 @@
   import { toast, Toaster } from "svelte-5-french-toast";
 
   let movie = $state(null);
+  let ratings = $state([]);
 
   let { id } = $props();
 
@@ -15,6 +16,22 @@
 
       if (response.ok) {
         movie = data;
+      }
+    } catch {}
+  });
+
+  onMount(async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/movies/${id}/ratings`,
+        {
+          credentials: "include",
+        },
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        ratings = data;
       }
     } catch {}
   });

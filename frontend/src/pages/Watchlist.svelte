@@ -3,6 +3,10 @@
   import { Toaster, toast } from "svelte-5-french-toast";
 
   let watchlist = $state([]);
+  let score = $state("");
+  let note = $state("");
+  let ratings = $state([]);
+  let rateMovieId = $state(null);
 
   onMount(async () => {
     try {
@@ -57,6 +61,34 @@
       }
     } catch {}
   }
+
+  async function rateMovie(tmdbId) {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/movies/${tmdbId}/ratings`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ score, note }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        ratings = data;
+      }
+    } catch {}
+  }
+
+  async function submitRating(watchlistId, tmdbId) {
+    await rateMovie(tmdbId);
+    await markAsWatched(watchlistId);
+    rateMovieId = null;
+    score = "";
+    note = "";
+  }
 </script>
 
 <Toaster />
@@ -69,8 +101,22 @@
         src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
         alt={movie.title}
       />
+      {#if rateMovieId === movie.id}
+        <input
+          type="number"
+          bind:value={score}
+          min="1"
+          max="10"
+          placeholder="Score 1-10"
+        />
+        <textarea bind:value={note} placeholder="Notes"></textarea>
+        <button onclick={() => submitRating(movie.id, movie.tmdb_id)}>Submit</button>
+        <button onclick={() => (rateMovieId = null)}>Cancel</button>
+      {:else}
+        <button onclick={() => (rateMovieId = movie.id)}>Mark as watched</button>
+      {/if}
 
-      <button onclick={() => markAsWatched(movie.id)}>Mark as watched</button>
+      <!-- <button onclick={() => markAsWatched(movie.id)}>Mark as watched</button> -->
       <p>Synopsis: {movie.synopsis}</p>
       <p>Release date: {movie.release_year}</p>
       <p>Rating: {movie.tmdb_rating}</p>
@@ -103,6 +149,5 @@
 
   .columns div {
     flex: 1;
-
   }
 </style>

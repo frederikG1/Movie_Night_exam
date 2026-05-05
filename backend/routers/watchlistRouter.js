@@ -7,7 +7,7 @@ const router = Router();
 router.get("/watchlist", isLoggedIn, (req, res) => {
   const watchList = db
     .prepare(
-      `SELECT watchlist.*, movies.title, movies.poster_path, movies.synopsis, movies.release_year, movies.tmdb_rating 
+      `SELECT watchlist.*, movies.title, movies.poster_path, movies.synopsis, movies.release_year, movies.tmdb_rating, movies.tmdb_id
     FROM watchlist
     JOIN movies ON movies.id = watchlist.movie_id
     WHERE watchlist.user_id = ?`,
