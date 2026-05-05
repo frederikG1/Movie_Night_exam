@@ -53,11 +53,21 @@
         },
       );
 
+      const data = await response.json();
+
       if (response.ok) {
-        const response = await fetch(`http://localhost:8080/api/watchlist`, {
-          credentials: "include",
+        const listResponse = await fetch(
+          `http://localhost:8080/api/watchlist`,
+          {
+            credentials: "include",
+          },
+        );
+        watchlist = await listResponse.json();
+        toast.success(data.successMessage, {
+          position: "top-right",
         });
-        watchlist = await response.json();
+      } else {
+        toast.error(data.errorMessage, { position: "top-right" });
       }
     } catch {}
   }
@@ -78,6 +88,13 @@
 
       if (response.ok) {
         ratings = data;
+        toast.success(data.successMessage, {
+          position: "top-right",
+        });
+      } else {
+        toast.error(data.errorMessage, {
+          position: "top-right",
+        });
       }
     } catch {}
   }
@@ -110,10 +127,13 @@
           placeholder="Score 1-10"
         />
         <textarea bind:value={note} placeholder="Notes"></textarea>
-        <button onclick={() => submitRating(movie.id, movie.tmdb_id)}>Submit</button>
+        <button onclick={() => submitRating(movie.id, movie.tmdb_id)}
+          >Submit</button
+        >
         <button onclick={() => (rateMovieId = null)}>Cancel</button>
       {:else}
-        <button onclick={() => (rateMovieId = movie.id)}>Mark as watched</button>
+        <button onclick={() => (rateMovieId = movie.id)}>Mark as watched</button
+        >
       {/if}
 
       <!-- <button onclick={() => markAsWatched(movie.id)}>Mark as watched</button> -->

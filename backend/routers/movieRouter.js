@@ -90,7 +90,7 @@ router.get("/movies/:id/ratings", (req, res) => {
     )
     .all(movie.id);
 
-    res.status(200).send(ratings);
+  res.status(200).send(ratings);
 });
 
 router.post("/movies/:id/ratings", isLoggedIn, (req, res) => {
@@ -120,7 +120,7 @@ router.post("/movies/:id/ratings", isLoggedIn, (req, res) => {
     )
     .run(req.session.user.id, movie.id, score, note);
 
-  res.status(201).send({ data: { id: result.lastInsertRowid } });
+  res.status(201).send({ successMessage: "Rating has been submitted" });
 });
 
 export default router;
