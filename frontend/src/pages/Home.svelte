@@ -6,6 +6,7 @@
   let showMatches = $state("");
   let results = $state([]);
   let movies = $state([]);
+  let recentRatings = $state([]);
 
   let newestMovies = $derived(
     movies
@@ -29,6 +30,22 @@
 
       if (response.ok) {
         movies = data;
+      }
+    } catch {}
+  });
+
+  onMount(async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/ratings/recent`,
+        {
+          credentials: "include",
+        },
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        recentRatings = data;
       }
     } catch {}
   });
@@ -61,24 +78,42 @@
     <div class="movie-rows">
       {#each results as movie}
         <Link to={`/movies/${movie.id}`}>
-          <img
-            src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-            alt={movie.title}
-          />
-          <p>{movie.title}</p>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front">
+                <img
+                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                  alt={movie.title}
+                />
+              </div>
+              <div class="card-back">
+                <h4>{movie.title}</h4>
+                <p>{movie.tmdb_rating}/10</p>
+              </div>
+            </div>
+          </div>
         </Link>
       {/each}
     </div>
   {:else}
+    <h1>Newly rated movies</h1>
     <div class="movie-rows">
-      <h1>Newest releases</h1>
-      {#each newestMovies as movie}
-        <Link to={`/movies/${movie.tmdb_id}`}>
-          <img
-            src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-            alt={movie.title}
-          />
-          <p>{movie.title}</p>
+      {#each recentRatings as rating}
+        <Link to={`/movies/${rating.tmdb_id}`}>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-front">
+                <img
+                  src={`https://image.tmdb.org/t/p/w200${rating.poster_path}`}
+                  alt={rating.title}
+                />
+              </div>
+              <div class="card-back">
+                <h4>{rating.title}</h4>
+                <p>{rating.tmdb_rating}/10</p>
+              </div>
+            </div>
+          </div>
         </Link>
       {/each}
     </div>
@@ -95,5 +130,49 @@
     display: grid;
     gap: 2rem;
     grid-template-columns: repeat(4, 1fr);
+    margin: 1rem auto;
+  }
+
+  .card {
+    width: 200px;
+    height: 250px;
+    margin: 1rem auto;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+
+  .card:hover .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-front,
+  .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+  }
+
+  .card-front {
+    background: white;
+    border: 1px solid #e5e7eb;
+  }
+
+  .card-back {
+    background: #8b5cf6;
+    color: white;
+    transform: rotateY(180deg);
   }
 </style>

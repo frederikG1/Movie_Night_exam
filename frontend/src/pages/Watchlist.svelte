@@ -7,6 +7,9 @@
   let note = $state("");
   let ratings = $state([]);
   let rateMovieId = $state(null);
+  // [] for things that will be arrays (lists)
+  // "" for text inputs (so the form starts empty)
+  // null for "nothing selected yet" states (good for toggles)
 
   onMount(async () => {
     try {
@@ -87,7 +90,6 @@
       const data = await response.json();
 
       if (response.ok) {
-        ratings = data;
         toast.success(data.successMessage, {
           position: "top-right",
         });
@@ -100,10 +102,10 @@
   }
 
   async function submitRating(watchlistId, tmdbId) {
-    await rateMovie(tmdbId);
-    await markAsWatched(watchlistId);
-    rateMovieId = null;
-    score = "";
+    await rateMovie(tmdbId); // save score and note to ratings table
+    await markAsWatched(watchlistId); // update watchlist status to "watched"
+    rateMovieId = null; // closes the form
+    score = ""; // clear inputs (empty string)
     note = "";
   }
 </script>
@@ -113,50 +115,58 @@
   <div>
     <h3>Want to watch</h3>
     {#each watchlist.filter((m) => m.status === "want_to_watch") as movie}
-      <p>Title: {movie.title}</p>
-      <img
-        src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-        alt={movie.title}
-      />
-      {#if rateMovieId === movie.id}
-        <input
-          type="number"
-          bind:value={score}
-          min="1"
-          max="10"
-          placeholder="Score 1-10"
+      <div class="watchlist-item">
+        <img
+          src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+          alt={movie.title}
         />
-        <textarea bind:value={note} placeholder="Notes"></textarea>
-        <button onclick={() => submitRating(movie.id, movie.tmdb_id)}
-          >Submit</button
-        >
-        <button onclick={() => (rateMovieId = null)}>Cancel</button>
-      {:else}
-        <button onclick={() => (rateMovieId = movie.id)}>Mark as watched</button
-        >
-      {/if}
+        <div class="info">
+          <h4>{movie.title}</h4>
+          <p>{movie.synopsis}</p>
+          <p>Release date: {movie.release_year}</p>
+          <p>Rating: {movie.tmdb_rating}/10</p>
 
-      <!-- <button onclick={() => markAsWatched(movie.id)}>Mark as watched</button> -->
-      <p>Synopsis: {movie.synopsis}</p>
-      <p>Release date: {movie.release_year}</p>
-      <p>Rating: {movie.tmdb_rating}</p>
+          {#if rateMovieId === movie.id}
+            <input
+              type="number"
+              bind:value={score}
+              min="1"
+              max="10"
+              placeholder="Score 1-10"
+            />
+            <textarea bind:value={note} placeholder="Notes"></textarea>
+            <button onclick={() => submitRating(movie.id, movie.tmdb_id)}
+              >Submit</button
+            >
+            <button onclick={() => (rateMovieId = null)}>Cancel</button>
+          {:else}
+            <button onclick={() => (rateMovieId = movie.id)}
+              >Mark as watched</button
+            >
+          {/if}
+        </div>
+      </div>
     {/each}
   </div>
 
   <div>
     <h3>Watched</h3>
     {#each watchlist.filter((m) => m.status === "watched") as movie}
-      <p>Title: {movie.title}</p>
-      <img
-        src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-        alt={movie.title}
-      />
-      <button onclick={() => deleteFromList(movie.id)}
-        >Remove from watchlist</button
-      >
-      <p>Synopsis: {movie.synopsis}</p>
-      <p>Release date: {movie.release_year}</p>
-      <p>Rating: {movie.tmdb_rating}</p>
+      <div class="watchlist-item">
+        <img
+          src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+          alt={movie.title}
+        />
+        <div class="info">
+          <h4>{movie.title}</h4>
+          <p>{movie.synopsis}</p>
+          <p>Release date: {movie.release_year}</p>
+          <p>Rating: {movie.tmdb_rating}</p>
+          <button onclick={() => deleteFromList(movie.id)}
+            >Remove from watchlist</button
+          >
+        </div>
+      </div>
     {/each}
   </div>
 </div>
@@ -165,9 +175,47 @@
   .columns {
     display: flex;
     gap: 2rem;
+    max-width: 1400px;
+    margin: 1rem auto;
+    padding: 0 2rem;
   }
 
   .columns div {
     flex: 1;
+  }
+
+  .columns h3 {
+   padding: 0.25rem;
+  }
+
+  .watchlist-item {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background: #0e0d0d;
+    border-radius: 8px;
+  }
+
+  .watchlist-item img {
+    width: 120px;
+    height: auto;
+    flex-shrink: 0;
+    border-radius: 4px;
+  }
+
+  .watchlist-item .info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .watchlist-item h4 {
+    font-size: 1.5rem;
+  }
+
+  .watchlist-item p {
+    line-height: 1.5;
   }
 </style>

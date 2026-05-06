@@ -85,6 +85,21 @@
   <p>..</p>
 {/if}
 
+{#if ratings.length > 0}
+  <div class="movie-reviews">
+    <h3>Reviews</h3>
+    {#each ratings as rating}
+      <div class="movie-review">
+        <h1>{rating.username} rated it {rating.score}/10</h1>
+        <h1>Notes about the movie: </h1>
+        <p>{rating.note}</p>
+      </div>
+    {/each}
+  </div>
+{:else}
+  <p>No reviews</p>
+{/if}
+
 <style>
   .movie-detail {
     max-width: 1250px;
@@ -120,5 +135,29 @@
     margin-top: 1.5rem;
     width: 300px;
     height: 25px;
+  }
+
+  .movie-reviews {
+    max-width: 500;
+    margin: 2rem auto;
+    padding: 2rem;
+    font-size: xx-large;
+  }
+
+  .movie-review {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #0d4449;
+    border-radius: 0.3em;
+    font-size: 1.5rem;
+    max-width: 500;
+  }
+
+  .movie-review p{
+    font-style: italic;
+  }
+
+  .movie-review h1{
+    font-size: x-large;
   }
 </style>

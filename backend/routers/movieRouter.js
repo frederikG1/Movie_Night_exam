@@ -123,4 +123,18 @@ router.post("/movies/:id/ratings", isLoggedIn, (req, res) => {
   res.status(201).send({ successMessage: "Rating has been submitted" });
 });
 
+router.get("/ratings/recent", (req, res) => {
+  const ratings = db
+    .prepare(
+      `
+    SELECT * FROM ratings 
+    JOIN users ON users.id = ratings.user_id
+    JOIN movies ON movies.id = ratings.movie_id
+    ORDER BY ratings.created_at DESC
+    LIMIT 10`,
+    )
+    .all();
+  res.status(200).send(ratings);
+});
+
 export default router;

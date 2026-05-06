@@ -52,20 +52,77 @@
   <div class="movie-rows">
     {#each filteredMovies as movie}
       <Link to={`/movies/${movie.tmdb_id}`}>
-        <img
-          src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-          alt={movie.title}
-        />
-        <p>{movie.title}</p>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">
+              <img
+                src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                alt={movie.title}
+              />
+            </div>
+            <div class="card-back">
+              <p>{movie.title}</p>
+              <p>{movie.tmdb_rating}/10</p>
+            </div>
+          </div>
+        </div>
       </Link>
     {/each}
   </div>
 </div>
 
 <style>
+  h1 {
+    text-decoration: underline;
+    height: 56px;
+  }
   .movie-rows {
     display: grid;
     gap: 2rem;
     grid-template-columns: repeat(4, 1fr);
+    margin: 1rem auto;
+  }
+
+  .card {
+    width: 200px;
+    height: 250px;
+    margin: 1rem auto;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+
+  .card:hover .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-front,
+  .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+  }
+
+  .card-front {
+    background: white;
+    border: 1px solid #e5e7eb;
+  }
+
+  .card-back {
+    background: #8b5cf6;
+    color: white;
+    transform: rotateY(180deg);
   }
 </style>
