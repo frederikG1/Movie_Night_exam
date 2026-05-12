@@ -19,8 +19,6 @@
       ),
   );
 
-  // FILTER MED YEAR VIRKER IKKE ORDENTLIGT
-
   onMount(async () => {
     try {
       const response = await fetch(`http://localhost:8080/api/movies`, {
@@ -57,7 +55,6 @@
       });
       recentRatings = await response.json();
     });
-    
   });
 
   async function findMovie() {
@@ -106,7 +103,7 @@
       {/each}
     </div>
   {:else}
-    <h1>Newly rated movies</h1>
+    <h1>Newly rated movies by users</h1>
     <div class="movie-rows">
       {#each recentRatings as rating}
         <Link to={`/movies/${rating.tmdb_id}`}>
@@ -186,7 +183,4 @@
     color: white;
     transform: rotateY(180deg);
   }
-
-  
-  
 </style>

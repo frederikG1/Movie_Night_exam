@@ -163,7 +163,7 @@
           <p>Release date: {movie.release_year}</p>
           <p>Rating: {movie.tmdb_rating}</p>
           <button onclick={() => deleteFromList(movie.id)}
-            >Remove from watchlist</button
+            >Remove from watched list</button
           >
         </div>
       </div>

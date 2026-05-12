@@ -5,8 +5,8 @@
   import Movie from "./pages/Movie.svelte";
   import Movies from "./pages/Movies.svelte";
   import Signup from "./pages/Signup.svelte";
-  import WatchParty from "./pages/WatchParty.svelte";
   import Watchlist from "./pages/Watchlist.svelte";
+  import Profile from "./pages/Profile.svelte";
   import { Toaster, toast } from "svelte-5-french-toast";
   import { authStore } from "./stores/authStore.js";
   import { onMount } from "svelte";
@@ -64,6 +64,8 @@
 
       <span>Welcome, {$authStore?.username}! You are logged in.</span>
 
+      <Link to="/profile">My Profile</Link>
+
       <button class="btn" onclick={handleLogout}>Logout</button>
     {:else}
       <Link to="/login">Login</Link>
@@ -80,11 +82,11 @@
     <Route path="/login"><Login /></Route>
     <Route path="/signup"><Signup /></Route>
     <Route path="/movies"><Movies /></Route>
+    <Route path="/profile"><Profile /></Route>
     <Route path="/movies/:id" let:params>
       <Movie id={params.id} /></Route
     >
     <!-- Think of let:params as the Route component saying "here's what I found in the URL, you can use it" -->
     <Route path="/watchlist"><Watchlist /></Route>
-    <Route path="/watch-party"><WatchParty /></Route>
   </div>
 </Router>
