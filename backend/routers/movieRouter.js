@@ -1,6 +1,7 @@
 import { Router } from "express";
 import db from "../database/connection.js";
 import { isLoggedIn } from "./middlewareRouter.js";
+import io from "../app.js";
 
 const router = Router();
 
@@ -119,6 +120,8 @@ router.post("/movies/:id/ratings", isLoggedIn, (req, res) => {
     INSERT INTO ratings (user_id, movie_id, score, note) VALUES (?, ?, ?, ?)`,
     )
     .run(req.session.user.id, movie.id, score, note);
+
+  io.emit("ratingsUpdated");
 
   res.status(201).send({ successMessage: "Rating has been submitted" });
 });

@@ -1,6 +1,7 @@
 <script>
   import { Link } from "svelte-routing";
   import { onMount } from "svelte";
+  import socket from "../lib/socket.js";
 
   let searchMovie = $state("");
   let showMatches = $state("");
@@ -34,20 +35,29 @@
     } catch {}
   });
 
+  // Fetches when page loads
   onMount(async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/ratings/recent`,
-        {
-          credentials: "include",
-        },
-      );
+      const response = await fetch(`http://localhost:8080/api/ratings/recent`, {
+        credentials: "include",
+      });
       const data = await response.json();
 
       if (response.ok) {
         recentRatings = data;
       }
     } catch {}
+  });
+
+  // Fetches when new rating occurs
+  onMount(() => {
+    socket.on("ratingsUpdated", async () => {
+      const response = await fetch(`http://localhost:8080/api/ratings/recent`, {
+        credentials: "include",
+      });
+      recentRatings = await response.json();
+    });
+    
   });
 
   async function findMovie() {
@@ -110,7 +120,7 @@
               </div>
               <div class="card-back">
                 <h4>{rating.title}</h4>
-                <p>{rating.tmdb_rating}/10</p>
+                <p>{rating.score}/10</p>
               </div>
             </div>
           </div>
@@ -163,6 +173,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 0.5rem;
+    gap: 0.5rem;
   }
 
   .card-front {
@@ -175,4 +186,7 @@
     color: white;
     transform: rotateY(180deg);
   }
+
+  
+  
 </style>

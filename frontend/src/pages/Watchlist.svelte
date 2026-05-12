@@ -198,7 +198,7 @@
   }
 
   .watchlist-item img {
-    width: 120px;
+    width: 200px;
     height: auto;
     flex-shrink: 0;
     border-radius: 4px;
