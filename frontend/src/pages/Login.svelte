@@ -19,12 +19,12 @@
       if (response.ok) {
         authStore.set(data.user);
         toast.success(data.successMessage, {
-          position: "top-right",
+          position: "bottom-right",
         });
         navigate("/");
       } else {
         toast.error(data.errorMessage, {
-          position: "top-right",
+          position: "bottom-right",
         });
       }
     } catch (error) {
@@ -38,9 +38,11 @@
 <div class="container">
   <div class="card">
     <h2>Login</h2>
-    <input bind:value={email} placeholder="Email" />
-    <input type="password" bind:value={password} placeholder="Password" />
-    <button onclick={handleLogin}>Login</button>
+    <form onsubmit={(e) => {e.preventDefault();}}>
+      <input bind:value={email} placeholder="Email" />
+      <input type="password" bind:value={password} placeholder="Password" />
+      <button onclick={handleLogin}>Login</button>
+    </form>
   </div>
 </div>
 
@@ -49,7 +51,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 70vh;
   }
   .card {
     width: 300px;
@@ -59,6 +61,10 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+
+  .card form {
+    display: contents;
   }
   input {
     padding: 8px;
@@ -73,5 +79,4 @@
     border-radius: 5px;
     cursor: pointer;
   }
-
 </style>

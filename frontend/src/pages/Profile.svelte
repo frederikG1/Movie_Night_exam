@@ -35,27 +35,176 @@
   );
 </script>
 
-<h1>Hello</h1>
-<div class="columns">
+<div class="container">
   {#if user}
-    <div class="profile-header">
+    <div class="card">
       <div class="avatar">
         <img src={avatar} alt="Avatar" />
       </div>
-
-      <div>
+      <div class="profile-info">
         <h1>{user.username}</h1>
-        <p>Member since {user.created_at}</p>
+        <p class="member-since">Member since {user.created_at}</p>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-number"
+            >{watchlist.filter((m) => m.status === "watched").length}</span
+          >
+          <span class="stat-label">Watched</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number"
+            >{watchlist.filter((m) => m.status === "want_to_watch")
+              .length}</span
+          >
+          <span class="stat-label">In watchlist</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">{ratings.length}</span>
+          <span class="stat-label">Movies reviewed</span>
+        </div>
       </div>
     </div>
+
+    {#if watchlist.filter((m) => m.status === "watched").length > 0}
+      <section class="movie-section">
+        <h2>Recently watched</h2>
+        <div class="movie-row">
+          {#each watchlist.filter((m) => m.status === "watched") as movie}
+            <img
+              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+              alt={movie.title}
+            />
+          {/each}
+        </div>
+      </section>
+    {/if}
+    {#if watchlist.filter((m) => m.status === "want_to_watch").length > 0}
+      <section class="movie-section">
+        <h2>In watchlist</h2>
+        <div class="movie-row">
+          {#each watchlist.filter((m) => m.status === "want_to_watch") as movie}
+            <img
+              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+              alt={movie.title}
+            />
+          {/each}
+        </div>
+      </section>
+    {/if}
+    {#if ratings.length > 0}
+      <section class="movie-section">
+        <h2>Recently reviewed</h2>
+        <div class="movie-row-review">
+          {#each ratings as rating}
+            <img
+              src={`https://image.tmdb.org/t/p/w200${rating.poster_path}`}
+              alt={rating.title}
+            />
+          {/each}
+        </div>
+      </section>
+    {/if}
   {/if}
 </div>
 
 <style>
-  .profile-header {
-    width: 120px;
-    height: 120px;
+  .container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    display: inline-block;
+    height: 30vh;
+  }
+
+  .card {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .avatar img {
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     background: #2a2a2a;
+  }
+
+  .profile-info {
+    flex: 1;
+  }
+
+  .profile-info h1 {
+    margin: 0;
+    font-size: 2rem;
+  }
+
+  .member-since {
+    color: #888;
+    margin: 0.5rem 0 1.5rem;
+    font-size: 0.875rem;
+  }
+
+  .stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .stats {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+  }
+
+  .movie-section {
+    margin-top: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .movie-section h2 {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    color: #ccc;
+  }
+
+  .movie-row {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+  }
+
+  .movie-row img {
+    width: 100px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .movie-row-review {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+  }
+
+  .movie-row-review img {
+    width: 100px;
+    border-radius: 4px;
+    flex-shrink: 0;
   }
 </style>

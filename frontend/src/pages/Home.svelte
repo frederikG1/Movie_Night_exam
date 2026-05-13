@@ -2,6 +2,7 @@
   import { Link } from "svelte-routing";
   import { onMount } from "svelte";
   import socket from "../lib/socket.js";
+  import { preventDefault } from "svelte/legacy";
 
   let searchMovie = $state("");
   let showMatches = $state("");
@@ -73,13 +74,20 @@
       }
     } catch {}
   }
+
+  // let button = document.getElementById("button");
+
+  // button.addEventListener("keypress", (e) => {
+  //   if (e.key === "enter") button.onclick();
+  // });
 </script>
 
 <div class="container">
   <h2>Movies</h2>
-  <input bind:value={searchMovie} placeholder="Movie name" />
-  <button onclick={findMovie}>Search</button>
-
+  <form onsubmit={(e) => { e.preventDefault(); findMovie(); }}>
+    <input bind:value={searchMovie} placeholder="Movie name" />
+    <button onclick={findMovie}>Search</button>
+  </form>
   {#if showMatches}
     <h1>Showing matches for "{showMatches}"</h1>
     <div class="movie-rows">
@@ -95,7 +103,7 @@
               </div>
               <div class="card-back">
                 <h4>{movie.title}</h4>
-                <p>{movie.tmdb_rating}/10</p>
+                <p>{movie.vote_average}/10</p>
               </div>
             </div>
           </div>
@@ -117,7 +125,7 @@
               </div>
               <div class="card-back">
                 <h4>{rating.title}</h4>
-                <p>{rating.score}/10</p>
+                <p>{rating.tmdb_rating}/10</p>
               </div>
             </div>
           </div>

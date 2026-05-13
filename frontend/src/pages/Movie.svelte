@@ -51,11 +51,11 @@
 
       if (response.ok) {
         toast.success(data.successMessage, {
-          position: "top-right",
+          position: "bottom-right",
         });
       } else {
         toast.error(data.errorMessage, {
-          position: "top-right",
+          position: "bottom-right",
         });
       }
     } catch {}
