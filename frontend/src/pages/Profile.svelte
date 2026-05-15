@@ -42,21 +42,21 @@
         <img src={avatar} alt="Avatar" />
       </div>
       <div class="profile-info">
+      <!-- <div class="profile-notes">
+        <h1>Likes: </h1>
+        <h1>Dislikes: </h1>
+      </div> -->
         <h1>{user.username}</h1>
         <p class="member-since">Member since {user.created_at}</p>
       </div>
+      
       <div class="stats">
         <div class="stat">
-          <span class="stat-number"
-            >{watchlist.filter((m) => m.status === "watched").length}</span
-          >
+          <span class="stat-number">{watchlist.filter((m) => m.status === "watched").length}</span>
           <span class="stat-label">Watched</span>
         </div>
         <div class="stat">
-          <span class="stat-number"
-            >{watchlist.filter((m) => m.status === "want_to_watch")
-              .length}</span
-          >
+          <span class="stat-number">{watchlist.filter((m) => m.status === "want_to_watch").length}</span>
           <span class="stat-label">In watchlist</span>
         </div>
         <div class="stat">
@@ -66,55 +66,69 @@
       </div>
     </div>
 
-    {#if watchlist.filter((m) => m.status === "watched").length > 0}
-      <section class="movie-section">
-        <h2>Recently watched</h2>
-        <div class="movie-row">
-          {#each watchlist.filter((m) => m.status === "watched") as movie}
-            <img
-              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-              alt={movie.title}
-            />
-          {/each}
-        </div>
-      </section>
-    {/if}
-    {#if watchlist.filter((m) => m.status === "want_to_watch").length > 0}
-      <section class="movie-section">
-        <h2>In watchlist</h2>
-        <div class="movie-row">
-          {#each watchlist.filter((m) => m.status === "want_to_watch") as movie}
-            <img
-              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-              alt={movie.title}
-            />
-          {/each}
-        </div>
-      </section>
-    {/if}
-    {#if ratings.length > 0}
-      <section class="movie-section">
-        <h2>Recently reviewed</h2>
-        <div class="movie-row-review">
-          {#each ratings as rating}
-            <img
-              src={`https://image.tmdb.org/t/p/w200${rating.poster_path}`}
-              alt={rating.title}
-            />
-          {/each}
-        </div>
-      </section>
-    {/if}
+    <div class="columns">
+      <div>
+        {#if watchlist.filter((m) => m.status === "watched").length > 0}
+          <section class="movie-section">
+            <h2>Recently watched</h2>
+            <div class="movie-row">
+              {#each watchlist.filter((m) => m.status === "watched") as movie}
+                <img
+                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                  alt={movie.title}
+                />
+              {/each}
+            </div>
+          </section>
+        {/if}
+        {#if watchlist.filter((m) => m.status === "want_to_watch").length > 0}
+          <section class="movie-section">
+            <h2>In watchlist</h2>
+            <div class="movie-row">
+              {#each watchlist.filter((m) => m.status === "want_to_watch") as movie}
+                <img
+                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                  alt={movie.title}
+                />
+              {/each}
+            </div>
+          </section>
+        {/if}
+      </div>
+
+      <div>
+        {#if ratings.length > 0}
+          <section class="movie-section">
+            <h2>Recently reviewed</h2>
+            <div class="movie-row">
+              {#each ratings as rating}
+                <img
+                  src={`https://image.tmdb.org/t/p/w200${rating.poster_path}`}
+                  alt={rating.title}
+                />
+              {/each}
+            </div>
+          </section>
+        {/if}
+      </div>
+    </div>
   {/if}
 </div>
 
 <style>
   .container {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 2rem;
-    display: inline-block;
-    height: 30vh;
+    max-width: 2000px;
+    margin: 1rem auto;
+    padding: 0 2rem;
+  }
+
+  .columns {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .columns div {
+    flex: 1;
   }
 
   .card {
@@ -125,6 +139,7 @@
     border-radius: 12px;
     padding: 2rem;
   }
+
 
   .avatar img {
     width: 140px;
@@ -180,29 +195,17 @@
 
   .movie-section h2 {
     margin: 0 0 1rem;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     color: #ccc;
   }
 
   .movie-row {
     display: flex;
     gap: 1rem;
-    overflow-x: auto;
+    flex-wrap: wrap;
   }
 
   .movie-row img {
-    width: 100px;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-
-  .movie-row-review {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-  }
-
-  .movie-row-review img {
     width: 100px;
     border-radius: 4px;
     flex-shrink: 0;

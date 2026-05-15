@@ -92,7 +92,7 @@ router.get("/users/me/profile", isLoggedIn, (req, res) => {
   const user = db
     .prepare(`SELECT id, username, email, created_at FROM users WHERE id = ?`)
     .get(req.session.user.id);
-  
+
   const watchlist = db
     .prepare(
       `SELECT watchlist.*, movies.title, movies.poster_path, movies.synopsis, movies.release_year, movies.tmdb_rating, movies.tmdb_id
@@ -113,6 +113,39 @@ router.get("/users/me/profile", isLoggedIn, (req, res) => {
     `,
     )
     .all(req.session.user.id);
+
+  res.status(200).send({ user, watchlist, ratings });
+});
+
+router.get("/users/:id/profile", (req, res) => {
+  const user = db
+    .prepare(`SELECT id, username, created_at FROM users WHERE id = ?`)
+    .get(req.params.id);
+
+  if (!user) {
+    return res.status(400).send({ errorMessage: "User not found" });
+  }
+
+  const watchlist = db
+    .prepare(
+      `SELECT watchlist.*, movies.title, movies.poster_path, movies.synopsis, movies.release_year, movies.tmdb_rating, movies.tmdb_id
+    FROM watchlist
+    JOIN movies ON movies.id = watchlist.movie_id
+    WHERE watchlist.user_id = ?`,
+    )
+    .all(req.params.id);
+
+  const ratings = db
+    .prepare(
+      `
+    SELECT ratings.*, movies.title, movies.poster_path, movies.tmdb_id
+    FROM ratings
+    JOIN movies ON movies.id = ratings.movie_id
+    WHERE ratings.user_id = ?
+    ORDER BY ratings.created_at DESC
+    `,
+    )
+    .all(req.params.id);
 
   res.status(200).send({ user, watchlist, ratings });
 });

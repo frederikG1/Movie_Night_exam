@@ -136,6 +136,10 @@
 </div>
 
 <style>
+
+  .container {
+    padding: 0 1rem;
+  }
   h1 {
     text-decoration: underline;
     height: 56px;

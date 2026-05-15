@@ -32,12 +32,14 @@
   });
 </script>
 
-<select bind:value={sortBy}>
-  <input placeholder="Sort by" />
-  <option value="rating">Rating (H-L)</option>
-  <option value="year">Newest</option>
-  <option value="title">Title (A-Z)</option>
-</select>
+<div class="container">
+  <select bind:value={sortBy}>
+    <input placeholder="Sort by" />
+    <option value="rating">Rating (H-L)</option>
+    <option value="year">Newest</option>
+    <option value="title">Title (A-Z)</option>
+  </select>
+</div>
 
 <div class="container">
   {#if sortBy === "rating"}
@@ -72,6 +74,9 @@
 </div>
 
 <style>
+  .container {
+    padding: 0 1rem;
+  }
   h1 {
     text-decoration: underline;
     height: 56px;
