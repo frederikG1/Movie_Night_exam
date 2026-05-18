@@ -54,23 +54,5 @@ db.exec(`
     )
 `);
 
-db.exec(`
-    CREATE TABLE IF NOT EXISTS watch_party_rooms (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        code TEXT NOT NULL UNIQUE,
-        host_user_id INTEGER REFERENCES users(id),
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-`);
-
-db.exec(`
-    CREATE TABLE IF NOT EXISTS watch_party_votes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        room_id INTEGER REFERENCES watch_party_rooms(id),
-        user_id INTEGER REFERENCES users(id),
-        movie_id INTEGER REFERENCES movies(id),
-        voted_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-`);
 
 console.log("Database setup complete");

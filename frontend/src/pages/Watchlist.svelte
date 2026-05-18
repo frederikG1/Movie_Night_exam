@@ -21,7 +21,9 @@
       if (response.ok) {
         watchlist = data;
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   });
 
   async function markAsWatched(id) {
@@ -42,7 +44,9 @@
         });
         watchlist = await response.json();
       }
-    } catch {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   async function deleteFromList(id) {
@@ -72,7 +76,9 @@
       } else {
         toast.error(data.errorMessage, { position: "bottom-right" });
       }
-    } catch {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   async function rateMovie(tmdbId) {
@@ -98,7 +104,9 @@
           position: "bottom-right",
         });
       }
-    } catch {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   async function submitRating(watchlistId, tmdbId) {
@@ -127,16 +135,24 @@
           <p>Rating: {movie.tmdb_rating}/10</p>
 
           {#if rateMovieId === movie.id}
-          <!-- <form onsubmit={(e) => { e.preventDefault(); submitRating(); }}> -->
-            <input type="number" bind:value={score} min="1" max="10" placeholder="Score 1-10"/>
+            <!-- <form onsubmit={(e) => { e.preventDefault(); submitRating(); }}> -->
+            <input
+              type="number"
+              bind:value={score}
+              min="1"
+              max="10"
+              placeholder="Score 1-10"
+            />
             <textarea bind:value={note} placeholder="Notes"></textarea>
-            <button onclick={() => submitRating(movie.id, movie.tmdb_id)}>Submit</button>
+            <button onclick={() => submitRating(movie.id, movie.tmdb_id)}
+              >Submit</button
+            >
             <button onclick={() => (rateMovieId = null)}>Cancel</button>
-          <!-- </form> -->
+            <!-- </form> -->
           {:else}
             <button onclick={() => (rateMovieId = movie.id)}
-              >Mark as watched</button>
-          
+              >Mark as watched</button
+            >
           {/if}
         </div>
       </div>
@@ -149,7 +165,8 @@
       <div class="watchlist-item">
         <img
           src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-          alt={movie.title}/>
+          alt={movie.title}
+        />
         <div class="info">
           <h4>{movie.title}</h4>
           <p>{movie.synopsis}</p>
@@ -178,7 +195,7 @@
   }
 
   .columns h3 {
-   padding: 0.25rem;
+    padding: 0.25rem;
   }
 
   .watchlist-item {

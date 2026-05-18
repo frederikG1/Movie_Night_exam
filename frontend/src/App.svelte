@@ -72,7 +72,7 @@
         <Link to="/users">Users</Link>
       </div>
 
-      <span>Welcome, {$authStore?.username}! You are logged in.</span>
+      <span>Welcome, {$authStore?.username}! </span>
 
       <div class="dropdown">
         <span>My profile</span>

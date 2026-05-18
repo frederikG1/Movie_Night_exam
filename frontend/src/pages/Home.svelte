@@ -31,7 +31,10 @@
       if (response.ok) {
         movies = data;
       }
-    } catch {}
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
+    }
   });
 
   // Fetches when page loads
@@ -45,7 +48,10 @@
       if (response.ok) {
         recentRatings = data;
       }
-    } catch {}
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
+    }
   });
 
   // Fetches when new rating occurs
@@ -72,7 +78,9 @@
       if (response.ok) {
         results = data;
       }
-    } catch {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   // let button = document.getElementById("button");
@@ -84,7 +92,12 @@
 
 <div class="container">
   <h2>Movies</h2>
-  <form onsubmit={(e) => { e.preventDefault(); findMovie(); }}>
+  <form
+    onsubmit={(e) => {
+      e.preventDefault();
+      findMovie();
+    }}
+  >
     <input bind:value={searchMovie} placeholder="Movie name" />
     <button onclick={findMovie}>Search</button>
   </form>
@@ -136,7 +149,6 @@
 </div>
 
 <style>
-
   .container {
     padding: 0 1rem;
   }

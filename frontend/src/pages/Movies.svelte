@@ -28,7 +28,9 @@
       if (response.ok) {
         movies = data;
       }
-    } catch {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   });
 </script>
 

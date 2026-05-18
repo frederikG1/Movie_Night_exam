@@ -22,7 +22,9 @@
         watchlist = data.watchlist;
         ratings = data.ratings;
       }
-    } catch {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   });
 
   const avatar = $derived(
@@ -42,21 +44,26 @@
         <img src={avatar} alt="Avatar" />
       </div>
       <div class="profile-info">
-      <!-- <div class="profile-notes">
+        <!-- <div class="profile-notes">
         <h1>Likes: </h1>
         <h1>Dislikes: </h1>
       </div> -->
         <h1>{user.username}</h1>
         <p class="member-since">Member since {user.created_at}</p>
       </div>
-      
+
       <div class="stats">
         <div class="stat">
-          <span class="stat-number">{watchlist.filter((m) => m.status === "watched").length}</span>
+          <span class="stat-number"
+            >{watchlist.filter((m) => m.status === "watched").length}</span
+          >
           <span class="stat-label">Watched</span>
         </div>
         <div class="stat">
-          <span class="stat-number">{watchlist.filter((m) => m.status === "want_to_watch").length}</span>
+          <span class="stat-number"
+            >{watchlist.filter((m) => m.status === "want_to_watch")
+              .length}</span
+          >
           <span class="stat-label">In watchlist</span>
         </div>
         <div class="stat">
@@ -139,7 +146,6 @@
     border-radius: 12px;
     padding: 2rem;
   }
-
 
   .avatar img {
     width: 140px;

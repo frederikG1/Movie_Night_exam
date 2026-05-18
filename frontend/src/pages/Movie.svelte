@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { toast, Toaster } from "svelte-5-french-toast";
+  import { Link } from "svelte-routing";
 
   let movie = $state(null);
   let ratings = $state([]);
@@ -17,7 +18,9 @@
       if (response.ok) {
         movie = data;
       }
-    } catch {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   });
 
   onMount(async () => {
@@ -33,7 +36,9 @@
       if (response.ok) {
         ratings = data;
       }
-    } catch {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   });
 
   async function addToWatchList() {
@@ -58,7 +63,9 @@
           position: "bottom-right",
         });
       }
-    } catch {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 </script>
 
@@ -90,8 +97,10 @@
     <h3>Reviews</h3>
     {#each ratings as rating}
       <div class="movie-review">
-        <h1>{rating.username} rated it {rating.score}/10</h1>
-        <h1>Notes about the movie: </h1>
+        <Link to={`/users/${rating.user_id}`}
+          ><h1>{rating.username} rated it {rating.score}/10</h1></Link
+        >
+        <h1>Notes about the movie:</h1>
         <p>{rating.note}</p>
       </div>
     {/each}
@@ -153,11 +162,11 @@
     max-width: 500;
   }
 
-  .movie-review p{
+  .movie-review p {
     font-style: italic;
   }
 
-  .movie-review h1{
+  .movie-review h1 {
     font-size: x-large;
   }
 </style>

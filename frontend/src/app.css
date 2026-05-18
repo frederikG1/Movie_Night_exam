@@ -33,11 +33,12 @@ h1, h2, h3 {
 
 nav {
     background: var(--bg-secondary);
-    padding: 0 2rem;
+    padding: 0 1.5rem;
     height: 56px;
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
+    flex-wrap: nowrap;
 }
 
 nav a {
@@ -48,6 +49,13 @@ nav a {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     transition: color 0.2s;
+}
+
+nav :global(a),
+nav span,
+nav .logo {
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 nav a:hover {
