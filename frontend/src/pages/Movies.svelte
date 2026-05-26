@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { Link } from "svelte-routing";
+  import toast from "svelte-5-french-toast";
 
   let movies = $state([]);
   let sortBy = $state("rating");
@@ -36,7 +37,6 @@
 
 <div class="container">
   <select bind:value={sortBy}>
-    <input placeholder="Sort by" />
     <option value="rating">Rating (H-L)</option>
     <option value="year">Newest</option>
     <option value="title">Title (A-Z)</option>

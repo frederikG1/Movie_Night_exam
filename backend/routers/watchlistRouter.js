@@ -60,7 +60,7 @@ router.patch("/watchlist/:id", isLoggedIn, (req, res) => {
     .run(status, id);
 
   res
-    .status(201)
+    .status(200)
     .send({ successMessage: `Movie status has been updated to: ${status}` });
 });
 
@@ -70,10 +70,10 @@ router.delete("/watchlist/:id", isLoggedIn, (req, res) => {
   const deleteMovie = db.prepare(`DELETE FROM watchlist WHERE id = ?`).run(id);
 
   if (!deleteMovie.changes) {
-    res.status(400).send({ errorMessage: "Movie with this ID not found" });
+    return res.status(400).send({ errorMessage: "Movie with this ID not found" });
   }
 
-  res.status(201).send({ successMessage: "Movie has been deleted" });
+  res.status(200).send({ successMessage: "Movie has been deleted" });
 });
 
 export default router;

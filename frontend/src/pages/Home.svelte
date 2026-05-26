@@ -2,7 +2,7 @@
   import { Link } from "svelte-routing";
   import { onMount } from "svelte";
   import socket from "../lib/socket.js";
-  import { preventDefault } from "svelte/legacy";
+  import toast from "svelte-5-french-toast";
 
   let searchMovie = $state("");
   let showMatches = $state("");

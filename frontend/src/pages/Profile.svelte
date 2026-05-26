@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { createAvatar } from "@dicebear/core";
   import { lorelei } from "@dicebear/collection";
+  import toast from "svelte-5-french-toast";
 
   let user = $state(null);
   let watchlist = $state([]);
