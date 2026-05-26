@@ -13,7 +13,9 @@ npm install
 ```
 
 Opret en `.env` fil i `backend/` baseret på `.env.example`:
-SESSION_SECRET= (kør i terminal: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
+SESSION_SECRET= (kør i terminal: ```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
+```
 TMDB_API_KEY
 
 Opret databasen:
