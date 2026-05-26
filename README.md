@@ -2,7 +2,7 @@
 
 ### 1. Klon projektet
 ```bash
-git clone 
+git clone https://github.com/frederikG1/Movie_Night_exam.git
 cd Movie_Night_exam
 ```
 
