@@ -17,9 +17,8 @@ kør i terminal for SESSION_SECRET:
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
 ```
-SESSION_SECRET= 
-
-TMDB_API_KEY=
+Følg instrukser her for API:
+https://developer.themoviedb.org/docs/getting-started 
 
 Opret databasen:
 ```bash
