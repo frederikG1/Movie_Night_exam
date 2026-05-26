@@ -45,7 +45,4 @@ For at nulstille databasen:
 npm run reset-db
 ```
 
-**Backend**
-- `npm run dev` – start serveren med nodemon
-- `npm run setup-db` – opret tabeller
-- `npm run reset-db` – slet og genopret tabeller
+
