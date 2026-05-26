@@ -69,7 +69,6 @@
       <div class="center-nav">
         <Link to="/">Home</Link>
         <Link to="/movies">Movies</Link>
-        <Link to="/users">Users</Link>
       </div>
 
       <span>Welcome, {$authStore?.username}! </span>
@@ -87,13 +86,8 @@
         <Link to="/login">Login</Link>
         <Link to="/signup">Create account</Link>
         <Link to="/movies">Movies</Link>
-        <Link to="/users">Users</Link>
       </div>
     {/if}
-
-    <!-- <Link to="/login">Login</Link>
-    <Link to="/signup">Signup</Link>
-    <Link to="/movie">Movie</Link> -->
   </nav>
 
   <div>
@@ -105,7 +99,7 @@
     <Route path="/movies/:id" let:params>
       <Movie id={params.id} /></Route
     >
-    <!-- Think of let:params as the Route component saying "here's what I found in the URL, you can use it" -->
+    
     <Route path="/watchlist"><Watchlist /></Route>
     <Route path="/users/:id" let:params>
       <UsersSite id={params.id} /></Route
@@ -142,7 +136,7 @@
   }
 
   .center-nav {
-    margin: 40ch;
+    margin: 0 auto;
     display: flex;
     gap: 2rem;
   }

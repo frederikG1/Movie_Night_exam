@@ -45,10 +45,6 @@
         <img src={avatar} alt="Avatar" />
       </div>
       <div class="profile-info">
-        <!-- <div class="profile-notes">
-        <h1>Likes: </h1>
-        <h1>Dislikes: </h1>
-      </div> -->
         <h1>{user.username}</h1>
         <p class="member-since">Member since {user.created_at}</p>
       </div>

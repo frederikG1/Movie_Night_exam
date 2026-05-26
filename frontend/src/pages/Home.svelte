@@ -83,11 +83,7 @@
     }
   }
 
-  // let button = document.getElementById("button");
-
-  // button.addEventListener("keypress", (e) => {
-  //   if (e.key === "enter") button.onclick();
-  // });
+  
 </script>
 
 <div class="container">

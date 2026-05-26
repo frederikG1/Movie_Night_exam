@@ -3,8 +3,6 @@ import db from "./connection.js";
 const deleteMode = process.argv.includes("--delete");
 
 if (deleteMode) {
-  db.exec(`DROP TABLE IF EXISTS watch_party_votes`);
-  db.exec(`DROP TABLE IF EXISTS watch_party_rooms`);
   db.exec(`DROP TABLE IF EXISTS ratings`);
   db.exec(`DROP TABLE IF EXISTS watchlist`);
   db.exec(`DROP TABLE IF EXISTS movies`);

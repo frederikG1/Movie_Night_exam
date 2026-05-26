@@ -135,7 +135,6 @@
           <p>Rating: {movie.tmdb_rating}/10</p>
 
           {#if rateMovieId === movie.id}
-            <!-- <form onsubmit={(e) => { e.preventDefault(); submitRating(); }}> -->
             <input
               type="number"
               bind:value={score}
@@ -148,7 +147,6 @@
               >Submit</button
             >
             <button onclick={() => (rateMovieId = null)}>Cancel</button>
-            <!-- </form> -->
           {:else}
             <button onclick={() => (rateMovieId = movie.id)}
               >Mark as watched</button
