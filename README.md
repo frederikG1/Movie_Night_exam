@@ -45,4 +45,6 @@ For at nulstille databasen:
 npm run reset-db
 ```
 
+'backend/query.js' bruges til queries i terminalen 
+
 
